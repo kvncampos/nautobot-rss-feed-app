@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>This is an edit page</h1>
+<a href="{% url 'plugins:ntc_news_feed:rssfeed_edit' pk=record.pk %}?return_url={{ request.path }}{{ return_url_extra }}" class="btn btn-xs btn-warning" title="Edit">
+    <i class="mdi mdi-pencil"></i>
+</a>
+{% endblock %}

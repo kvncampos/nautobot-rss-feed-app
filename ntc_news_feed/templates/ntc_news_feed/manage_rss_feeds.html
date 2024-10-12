@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load django_tables2 %}
+{% load static %}
+
+{% block title %}Manage RSS Stream{% endblock %}
+{% block content %}
+    <h1>Manage RSS Feeds</h1>
+    {% render_table table %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% load helpers %}
+
+{% for article in articles %}
+    <div class="list-group-item">
+        <!-- Article Title as clickable anchor with article's URL -->
+        <p>
+            <a href="{{ article.link }}" target="_blank">{{ article.title }}</a>
+        </p>
+        <p>{{ article.published }} | {{ article.author }}
+        <!-- Show the first sentence of the description -->
+        {% with article.description|cut:"." as first_sentence %}
+            <p>{{ first_sentence }}</p>
+        {% endwith %}
+    </div>
+{% endfor %}

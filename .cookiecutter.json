@@ -1,0 +1,26 @@
+{
+    "cookiecutter": {
+        "codeowner_github_usernames": "kvncampos",
+        "full_name": "Kevin Campos",
+        "email": "kvncampos@test.com",
+        "github_org": "kvncampos",
+        "app_name": "ntc_news_feed",
+        "verbose_name": "Ntc News Feed",
+        "app_slug": "ntc-news-feed",
+        "project_slug": "nautobot-app-ntc-news-feed",
+        "repo_url": "https://github.com/kvncampos/nautobot-app-ntc-news-feed",
+        "base_url": "ntc-news-feed",
+        "min_nautobot_version": "2.0.0",
+        "max_nautobot_version": "2.9999",
+        "camel_name": "NtcNewsFeed",
+        "project_short_description": "Ntc News Feed",
+        "model_class_name": "None",
+        "open_source_license": "Apache-2.0",
+        "docs_base_url": "https://docs.nautobot.com",
+        "docs_app_url": "https://docs.nautobot.com/projects/ntc-news-feed/en/latest",
+        "_template": "https://github.com/nautobot/cookiecutter-nautobot-app",
+        "_output_dir": "/Users/kvncampos/Documents/GitHub/my_stuff/ntc_blog_feed_app",
+        "_repo_dir": "/Users/kvncampos/.cookiecutters/cookiecutter-nautobot-app/nautobot-app",
+        "_checkout": null
+    }
+}

@@ -1,0 +1,16 @@
+<!-- manage_rss_feeds.html -->
+{% extends 'generic/object_create.html' %}
+{% load form_helpers %}
+{% load helpers %}
+{% load static %}
+
+{% block title %}Add RSS Stream{% endblock %}
+{% block form %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>RSS Feed Configuration</strong></div>
+        <div class="panel-body">
+            {% render_field form.name %}
+            {% render_field form.url %}
+        </div>
+    </div>
+{% endblock %}

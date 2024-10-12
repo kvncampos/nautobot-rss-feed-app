@@ -1,0 +1,32 @@
+<!-- ntc_news_feed/templates/ntc_news_feed/custom_blog_feed.html -->
+{% extends "base.html" %}
+
+{% block title %}
+Network to Code Blog Articles
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Network to Code Blog Articles</h1>
+            <p>Latest articles from the Network to Code blog:</p>
+
+            <!-- Loop through articles and display them -->
+            {% if articles %}
+                <ul class="list-group">
+                    {% for article in articles %}
+                        <li class="list-group-item">
+                            <h3><a href="{{ article.link }}" target="_blank">{{ article.title }}</a></h3>
+                            <p><strong>Published:</strong> {{ article.published }}</p>
+                            <p>{{ article.description|safe }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No articles found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
