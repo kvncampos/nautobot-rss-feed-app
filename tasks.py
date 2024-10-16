@@ -22,6 +22,8 @@ from invoke.collection import Collection
 from invoke.exceptions import Exit, UnexpectedExit
 from invoke.tasks import task as invoke_task
 
+APP_NAME = "ntc_news_feed"
+
 
 def is_truthy(arg):
     """Convert "truthy" strings into Booleans.
@@ -894,8 +896,25 @@ def tests(context, failfast=False, keepdb=False, lint_only=False):
     print("All tests have passed!")
 
 
-@task
-def pytest(context, disable_warnings=True, k=None, extra_args=""):
+@task(
+    help={
+        "disable_warnings": "Disable warnings during test execution (default: True)",
+        "k": "Keyword expression to filter tests with pytest -k option",
+        "html_report": "Generate an HTML coverage report",
+        "report": "Generate a terminal coverage report",
+        "parrallel": "Run tests in Parallel.",
+        "extra_args": "Additional arguments for pytest",
+    }
+)
+def pytest(
+    context,
+    disable_warnings=False,
+    k=None,
+    html_report=False,
+    report=False,
+    parrallel=False,
+    extra_args="",
+):
     """
     Run pytest with optional -k argument to filter tests and support additional arguments.
 
@@ -903,25 +922,43 @@ def pytest(context, disable_warnings=True, k=None, extra_args=""):
         context (Context): The Invoke context object.
         disable_warnings (bool, optional): Flag to disable warnings during test execution. Defaults to True.
         k (str, optional): The keyword expression to pass to pytest -k to filter tests.
+        coverage (bool, optional): Flag to enable coverage collection. Defaults to False.
+        html_report (bool, optional): Flag to generate an HTML coverage report.
+        report (bool, optional): Flag to generate a terminal coverage report.
         extra_args (str, optional): Additional pytest arguments.
     """
-    # Construct the pytest command with optional arguments.
-    base_command = "pytest ntc_news_feed/tests/"
+    # Base command using coverage to run pytest
+    base_command = "coverage run -m pytest"
 
     # Conditionally disable warnings based on the parameter
-    if disable_warnings:
+    if not disable_warnings:
         base_command += " -p no:warnings"
 
     # Include the -k option for filtering tests if specified
     if k:
         base_command += f" -k '{k}'"
 
+    if parrallel:
+        base_command += " -n auto"
+
     # Append any additional arguments provided
     if extra_args:
         base_command += f" {extra_args}"
 
-    # Use the dedicated run_pytest function to handle execution
-    run_command(context, base_command, pty=True)
+    # Conditionally generate the coverage report if requested
+    if report:
+        run_command("coverage report")
+
+    # Conditionally generate an HTML report if requested
+    if html_report:
+        run_command("coverage html")
+
+    # Display the path to the HTML report if generated
+    if html_report:
+        print("HTML coverage report generated at: htmlcov/index.html")
+
+    # Run the base command (coverage run -m pytest)
+    run_command(context, base_command, pty=False)
 
 
 @task
@@ -954,3 +991,17 @@ def validate_app_config(context):
         file="development/app_config_schema.py",
         env={"APP_CONFIG_SCHEMA_COMMAND": "validate"},
     )
+
+
+# Task to generate an HTML coverage report
+@task
+def coverage_html(c):
+    """Generate an HTML coverage report."""
+    c.run("pytest --cov=your_app_name --cov-report=html")
+
+
+# Task to enforce minimum coverage threshold
+@task
+def coverage_check(c, threshold=80):
+    """Run tests and fail if coverage falls below the given threshold."""
+    c.run(f"pytest --cov=your_app_name --cov-report=term --cov-fail-under={threshold}")
